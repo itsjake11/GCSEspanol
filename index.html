@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>GCSEspañol</title>
-
     <style>
         * {
             box-sizing: border-box;
         }
-
         body {
             margin: 0;
             min-height: 100vh;
@@ -21,7 +18,6 @@
             align-items: center;
             padding: 20px;
         }
-
         .quiz-container {
             background: white;
             width: 100%;
@@ -31,45 +27,38 @@
             text-align: center;
             box-shadow: 0 15px 40px rgba(0,0,0,0.2);
         }
-
         h1 {
             margin-top: 0;
             color: #e74c3c;
             font-size: 38px;
         }
-
         .instructions {
             color: #666;
             margin-bottom: 25px;
         }
-
         .score {
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 25px;
             color: #333;
         }
-
         .question-box {
             background: #f5f6fa;
             padding: 30px 20px;
             border-radius: 15px;
             margin-bottom: 20px;
         }
-
         .direction {
             color: #777;
             font-size: 15px;
             margin-bottom: 10px;
         }
-
         #word {
             font-size: 32px;
             font-weight: bold;
             color: #2f3640;
             word-wrap: break-word;
         }
-
         input {
             width: 100%;
             padding: 15px;
@@ -78,11 +67,9 @@
             border-radius: 10px;
             outline: none;
         }
-
         input:focus {
             border-color: #e74c3c;
         }
-
         button {
             border: none;
             padding: 14px 25px;
@@ -93,100 +80,78 @@
             cursor: pointer;
             transition: 0.2s;
         }
-
         #checkButton {
             background: #e74c3c;
             color: white;
         }
-
         #nextButton {
             background: #2ecc71;
             color: white;
             display: none;
         }
-
         button:hover {
             transform: scale(1.04);
         }
-
         #feedback {
             min-height: 30px;
             margin-top: 20px;
             font-size: 18px;
             font-weight: bold;
         }
-
         .correct {
             color: #27ae60;
         }
-
         .incorrect {
             color: #e74c3c;
         }
-
         .progress {
             color: #777;
             margin-top: 20px;
             font-size: 14px;
         }
-
+        #restartButton{
+            background: #3498db;
+            color: white;
+            display: none;
+        }
     </style>
 </head>
-
 <body>
-
 <div class="quiz-container">
-
     <h1>GCSEspañol</h1>
-
     <p class="instructions">
         Translate the word into the other language!
     </p>
-
     <div class="score">
         Correct answers: <span id="score">0</span>
         | Attempts: <span id="total">0</span>
     </div>
-
     <div class="question-box">
-
         <div class="direction" id="direction">
             Translate this word:
         </div>
-
         <div id="word">Loading...</div>
-
     </div>
-
     <input
         type="text"
         id="answer"
         placeholder="Type your translation here..."
         autocomplete="off"
     >
-
     <br>
-
     <button id="checkButton">Check Answer</button>
-    <button id="nextButton">Next Question →</button>
-
+    <button id="nextButton">Next Question</button>
+    <button id="restartButton">Try Again</button>
     <div id="feedback"></div>
-
     <div class="progress">
         Question 1 of 10
     </div>
-
 </div>
-
-
 <script>
-
 /* =========================
    VOCABULARY
 ========================= */
-
 const vocabulary = [
-
     { spanish: "El ordenador", english: "computer" },
     { spanish: "El portátil", english: "laptop" },
     { spanish: "Un correo electrónico", english: "an email" },
@@ -199,14 +164,12 @@ const vocabulary = [
     { spanish: "Usar", english: "to use" },
     { spanish: "Subir", english: "to upload" },
     { spanish: "Compartir", english: "to share" },
-
     { spanish: "A menudo", english: "often" },
     { spanish: "Una vez", english: "once" },
     { spanish: "Dos veces", english: "twice" },
     { spanish: "De vez en cuando", english: "sometimes" },
     { spanish: "A veces", english: "sometimes" },
     { spanish: "Siempre", english: "always" },
-
     { spanish: "Las redes sociales", english: "social networks" },
     { spanish: "Algunos", english: "some" },
     { spanish: "Los jóvenes", english: "young people" },
@@ -222,7 +185,6 @@ const vocabulary = [
     { spanish: "Un usuario", english: "a user" },
     { spanish: "En línea", english: "online" },
     { spanish: "Mantenerse en contacto", english: "to stay in touch" },
-
     { spanish: "Una canción", english: "a song" },
     { spanish: "El baile", english: "dance" },
     { spanish: "El baloncesto", english: "basketball" },
@@ -231,7 +193,6 @@ const vocabulary = [
     { spanish: "Un miembro", english: "a member" },
     { spanish: "Un equipo", english: "a team" },
     { spanish: "Un jugador", english: "a player" },
-
     { spanish: "Olvidar", english: "to forget" },
     { spanish: "Ayudar", english: "to help" },
     { spanish: "Disfrutar de", english: "to enjoy" },
@@ -239,7 +200,6 @@ const vocabulary = [
     { spanish: "Me chifla", english: "I love" },
     { spanish: "Me interesa", english: "it interests me" },
     { spanish: "Me mola", english: "I think it is cool" },
-
     { spanish: "Por la tarde", english: "in the afternoon" },
     { spanish: "Por la mañana", english: "in the morning" },
     { spanish: "Por la noche", english: "at night" },
@@ -248,7 +208,6 @@ const vocabulary = [
     { spanish: "La semana que viene", english: "next week" },
     { spanish: "Conmigo", english: "with me" },
     { spanish: "Contigo", english: "with you" },
-
     { spanish: "Querer", english: "to want" },
     { spanish: "Poder", english: "to be able to" },
     { spanish: "Tener que", english: "to have to" },
@@ -258,7 +217,6 @@ const vocabulary = [
     { spanish: "Cuidar a", english: "to take care of" },
     { spanish: "Primero", english: "firstly" },
     { spanish: "Luego", english: "then" },
-
     { spanish: "Ganar", english: "to win" },
     { spanish: "Una gira", english: "tour" },
     { spanish: "Una entrada", english: "a ticket" },
@@ -284,7 +242,6 @@ const vocabulary = [
     { spanish: "Esperar", english: "to hope" },
     { spanish: "Comenzar", english: "to start" },
     { spanish: "Empezar", english: "to start" },
-
     { spanish: "Un partido", english: "a match" },
     { spanish: "Oír", english: "to hear" },
     { spanish: "La voz", english: "the voice" },
@@ -292,7 +249,6 @@ const vocabulary = [
     { spanish: "La banda", english: "band" },
     { spanish: "Otro", english: "other" },
     { spanish: "Por lo tanto", english: "therefore" },
-
     { spanish: "La calle", english: "the street" },
     { spanish: "Caminar", english: "to walk" },
     { spanish: "Pasear", english: "to walk" },
@@ -318,7 +274,6 @@ const vocabulary = [
     { spanish: "Caro", english: "expensive" },
     { spanish: "Barato", english: "cheap" },
     { spanish: "El paisaje", english: "landscape" },
-
     { spanish: "El equipaje", english: "luggage" },
     { spanish: "Después", english: "afterwards" },
     { spanish: "Antes", english: "before" },
@@ -334,7 +289,6 @@ const vocabulary = [
     { spanish: "Lindo", english: "beautiful" },
     { spanish: "Un desfile", english: "a parade" },
     { spanish: "Los fuegos artificiales", english: "fireworks" },
-
     { spanish: "Conocer", english: "to know" },
     { spanish: "Delante de", english: "in front of" },
     { spanish: "Quemar", english: "to burn" },
@@ -351,7 +305,6 @@ const vocabulary = [
     { spanish: "Dejar", english: "to leave" },
     { spanish: "El último", english: "last" },
     { spanish: "El día siguiente", english: "the following day" },
-
     { spanish: "Ponerse enfermo", english: "to fall ill" },
     { spanish: "El reloj", english: "clock" },
     { spanish: "La maleta", english: "suitcase" },
@@ -375,7 +328,6 @@ const vocabulary = [
     { spanish: "Un ascensor", english: "a lift" },
     { spanish: "El premio", english: "prize" },
     { spanish: "Soler", english: "to usually" },
-
     { spanish: "Una excursión", english: "a trip" },
     { spanish: "El vuelo", english: "the flight" },
     { spanish: "La gente", english: "people" },
@@ -387,7 +339,6 @@ const vocabulary = [
     { spanish: "Probar", english: "to try" },
     { spanish: "Estar cansado", english: "to be tired" },
     { spanish: "Aprender", english: "to learn" },
-
     { spanish: "Llevarse bien con", english: "to get on well with" },
     { spanish: "Llevarse mal con", english: "to get on badly with" },
     { spanish: "Tío", english: "uncle" },
@@ -405,7 +356,6 @@ const vocabulary = [
     { spanish: "Contar con", english: "to count on" },
     { spanish: "Nacer", english: "to be born" },
     { spanish: "Aquí", english: "here" },
-
     { spanish: "Parecerse a", english: "to look like" },
     { spanish: "Un gemelo", english: "a twin" },
     { spanish: "La nariz", english: "nose" },
@@ -420,7 +370,6 @@ const vocabulary = [
     { spanish: "Una barba", english: "a beard" },
     { spanish: "Un bigote", english: "a moustache" },
     { spanish: "La cara", english: "face" },
-
     { spanish: "Un cantante", english: "a singer" },
     { spanish: "Apoyar", english: "to support" },
     { spanish: "Luchar", english: "to fight" },
@@ -471,7 +420,6 @@ const vocabulary = [
     { spanish: "Un ambiente", english: "an atmosphere" },
     { spanish: "Un deseo", english: "a desire" },
     { spanish: "El acoso", english: "bullying" },
-
     { spanish: "El cuerpo", english: "the body" },
     { spanish: "El hogar", english: "the home" },
     { spanish: "Un plato", english: "a dish" },
@@ -491,7 +439,6 @@ const vocabulary = [
     { spanish: "Salado", english: "salty" },
     { spanish: "Durante", english: "during" },
     { spanish: "La vida sana", english: "healthy life" },
-
     { spanish: "Levantarse", english: "to get up" },
     { spanish: "Vestirse", english: "to get dressed" },
     { spanish: "Acostarse", english: "to go to bed" },
@@ -504,7 +451,6 @@ const vocabulary = [
     { spanish: "Tener hambre", english: "to be hungry" },
     { spanish: "Tener sueño", english: "to be sleepy" },
     { spanish: "Terminar", english: "to finish" },
-
     { spanish: "Según", english: "according to" },
     { spanish: "Propio", english: "own" },
     { spanish: "Un postre", english: "a dessert" },
@@ -520,33 +466,22 @@ const vocabulary = [
     { spanish: "Entre", english: "between" },
     { spanish: "El almuerzo", english: "lunch" },
     { spanish: "Sobre todo", english: "most of all" }
-
 ];
-
-
 /* =========================
    QUIZ CODE
 ========================= */
-
 let score = 0;
 let totalAnswered = 0;
-
 let questions = [];
 let wrongQuestions = [];
-
 let currentQuestion;
 let correctAnswer;
-
 let questionNumber = 0;
 let answered = false;
 let revisionMode = false;
-
-
 /* Remove accents and capital letters
    so answers are easier to check */
-
 function normalise(text) {
-
     return text
         .toLowerCase()
         .trim()
@@ -554,358 +489,195 @@ function normalise(text) {
         .replace(/[\u0300-\u036f]/g, "")
         .replace(/[.,!?¿¡]/g, "")
         .replace(/^(el|la|los|las|un|una|unos|unas)\s+/i, "");
-
 }
-
 /* Start a new 10-question quiz */
-
 function startQuiz() {
-
     score = 0;
     totalAnswered = 0;
-
     /* Shuffle vocabulary and choose 10 */
-
     questions = [...vocabulary]
         .sort(() => Math.random() - 0.5)
         .slice(0, 10);
-
     wrongQuestions = [];
-
     questionNumber = 0;
-
     revisionMode = false;
-
     document.getElementById("score").textContent = score;
     document.getElementById("total").textContent = totalAnswered;
-
     document.getElementById("answer").style.display = "block";
-
     showQuestion();
-
 }
-
-
 /* Show the current question */
-
 function showQuestion() {
-
     answered = false;
-
     document.getElementById("feedback").textContent = "";
     document.getElementById("feedback").className = "";
-
     document.getElementById("answer").value = "";
-
     document.getElementById("checkButton").style.display =
         "inline-block";
-
     document.getElementById("nextButton").style.display =
         "none";
-
-
     /* Choose question from normal round
        or mistakes round */
-
     if (!revisionMode) {
-
         currentQuestion = questions[questionNumber];
-
     } else {
-
         currentQuestion = wrongQuestions[questionNumber];
-
     }
-
-
     /* Randomly choose direction */
-
     const spanishToEnglish = Math.random() < 0.5;
-
-
     if (spanishToEnglish) {
-
         document.getElementById("word").textContent =
             currentQuestion.spanish;
-
         document.getElementById("direction").textContent =
             "Translate this Spanish word into English:";
-
         correctAnswer = currentQuestion.english;
-
     } else {
-
         document.getElementById("word").textContent =
             currentQuestion.english;
-
         document.getElementById("direction").textContent =
             "Translate this English word into Spanish:";
-
         correctAnswer = currentQuestion.spanish;
-
     }
-
-
     /* Update progress */
-
     if (!revisionMode) {
-
         document.querySelector(".progress").textContent =
             "Question " +
             (questionNumber + 1) +
             " of 10";
-
     } else {
-
         document.querySelector(".progress").textContent =
             "Practising mistakes: " +
             (questionNumber + 1) +
             " of " +
             wrongQuestions.length;
-
     }
-
-
     document.getElementById("answer").focus();
-
 }
-
-
 /* Check the answer */
-
 function checkAnswer() {
-
     if (answered) return;
-
-
     const userAnswer =
         normalise(document.getElementById("answer").value);
-
     const correct =
         normalise(correctAnswer);
-
-
     if (userAnswer === "") {
-
         document.getElementById("feedback").textContent =
             "Type an answer first!";
-
         document.getElementById("feedback").className =
             "incorrect";
-
         return;
-
     }
-
-
     answered = true;
-
     totalAnswered++;
-
-
     /* Correct answer */
-
     if (userAnswer === correct) {
-
         score++;
-
         document.getElementById("feedback").textContent =
             "Correct!";
-
         document.getElementById("feedback").className =
             "correct";
-
-
         /* If in mistakes mode, remove
            the question once correct */
-
         if (revisionMode) {
-
             wrongQuestions.splice(questionNumber, 1);
-
             questionNumber--;
-
         }
-
-
     /* Incorrect answer */
-
     } else {
-
         document.getElementById("feedback").textContent =
             "Not quite! The answer is: " +
             correctAnswer;
-
         document.getElementById("feedback").className =
             "incorrect";
-
-
         /* Add wrong question to mistakes list
            during the original 10 questions */
-
         if (!revisionMode) {
-
             wrongQuestions.push(currentQuestion);
-
         }
-
     }
-
-
     document.getElementById("score").textContent =
         score;
-
     document.getElementById("total").textContent =
         totalAnswered;
-
-
     document.getElementById("checkButton").style.display =
         "none";
-
     document.getElementById("nextButton").style.display =
         "inline-block";
-
 }
-
-
 /* Move to next question */
-
 function nextQuestion() {
-
     questionNumber++;
-
-
     /* Normal 10-question round */
-
     if (!revisionMode) {
-
         if (questionNumber < 10) {
-
             showQuestion();
-
         } else {
-
-
             /* Start mistakes round */
-
             if (wrongQuestions.length > 0) {
-
                 revisionMode = true;
-
                 questionNumber = 0;
-
                 showQuestion();
-
             } else {
-
                 finishQuiz();
-
             }
-
         }
-
     }
-
-
     /* Mistakes round */
-
     else {
-
         if (wrongQuestions.length > 0) {
-
             if (questionNumber >= wrongQuestions.length) {
-
                 questionNumber = 0;
-
             }
-
             showQuestion();
-
         } else {
-
             finishQuiz();
-
         }
-
     }
-
 }
-
-
 /* Finish the quiz */
-
 function finishQuiz() {
-
     document.getElementById("word").textContent =
         "Quiz Complete!";
-
     document.getElementById("direction").textContent =
         "Great work!";
-
     document.getElementById("answer").style.display =
         "none";
-
     document.getElementById("checkButton").style.display =
         "none";
-
     document.getElementById("nextButton").style.display =
         "none";
-
-
+    /* Show Try Again button */
+    document.getElementById("restartButton").style.display =
+        "inline-block";
     document.getElementById("feedback").textContent =
         "You got " +
         score +
         " answers correct in " +
         totalAnswered +
         " attempts!";
-
     document.getElementById("feedback").className =
         "correct";
-
-
     document.querySelector(".progress").textContent =
         "You've completed GCSEspañol!";
-
 }
-
-
 /* Button events */
-
 document.getElementById("checkButton")
     .addEventListener("click", checkAnswer);
-
-
 document.getElementById("nextButton")
     .addEventListener("click", nextQuestion);
-
-
 /* Allow Enter key */
-
 document.getElementById("answer")
     .addEventListener("keydown", function(event) {
-
         if (event.key === "Enter") {
-
             if (!answered) {
-
                 checkAnswer();
-
             } else {
-
                 nextQuestion();
-
             }
-
         }
-
     });
-
-
 /* Start quiz */
-
 startQuiz();
-
 </script>
-
 </body>
 </html>
